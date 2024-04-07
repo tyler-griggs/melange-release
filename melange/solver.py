@@ -16,7 +16,7 @@ class Solver:
         raise NotImplementedError
 
 
-class HeteroAcceleratorSolver(Solver):
+class MelangeSolver(Solver):
     def __init__(self, workload_distribution, overall_rate, gpu_info, slice_factor):
         super().__init__(workload_distribution, overall_rate, gpu_info)
         self.slice_factor = slice_factor
