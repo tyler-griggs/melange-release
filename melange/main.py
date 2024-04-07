@@ -1,4 +1,4 @@
-from scripts.solver import HeteroAcceleratorSolver
+from scripts.solver import MelangeSolver
 
 
 def solver_run_example():
