@@ -30,7 +30,7 @@ def solver_run_example():
     slice_factor = 1
 
     #### Run the solver ####
-    mix_result = HeteroAcceleratorSolver(
+    mix_result = MelangeSolver(
         workload_distribution=workload_distribution,
         overall_rate=overall_rate,
         slice_factor=slice_factor,
