@@ -1,4 +1,4 @@
-# Cost-Efficient LLM Serving by Exploiting GPU Heterogeneity
+# Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity
 
 ## About
 This repository provides the implementation of the solver used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners who are interested to try it out and assist their decision making process when provisioning cloud instances.
