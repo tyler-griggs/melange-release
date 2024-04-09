@@ -1,4 +1,4 @@
-from scripts.solver import MelangeSolver
+from melange.solver import MelangeSolver
 
 
 def solver_run_example():

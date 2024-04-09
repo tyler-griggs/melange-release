@@ -2,7 +2,7 @@ import math
 import pulp
 from pulp import LpVariable, LpProblem, LpMinimize, LpInteger
 
-from scripts.util import tputs_to_loads_2d
+from melange.util import tputs_to_loads_2d
 
 
 # base class

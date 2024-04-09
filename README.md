@@ -11,7 +11,7 @@ This repository provides the implementation of the solver used in our paper. We 
 pip install -r requirements.txt
 
 # 2. Execute the solver
-python -m scripts.main
+python -m melange.main
 ```
 
 ## Explanation of Inputs and Outputs
