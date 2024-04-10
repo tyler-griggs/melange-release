@@ -102,6 +102,10 @@ class MelangeSolver(Solver):
         # Solve the problem
         problem.solve(pulp.PULP_CBC_CMD(msg=0))
 
+        # For Arm-based Mac platforms.
+        # solver = getSolver('CBC', path='/opt/homebrew/bin/cbc')
+        # problem.solve(solver)
+        
         # Print the results if needed
         if logs:
             print(f"Decision Matrix:")
