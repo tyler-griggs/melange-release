@@ -20,13 +20,12 @@ def solver_run_example():
     }
 
     # A 2D matrix obtained by analyzing the request distributions of the dataset.
-    workload_distribution = [[0.25, 0.5], [0.25, 0.25]]
+    workload_distribution = [[0.25, 0.125], [0.375, 0.25]]
 
-    # parameters
     # Overall rate represents the total number of requests per second of the workload.
     overall_rate = 16
     # Slice factor represents how many slices each bucket is split into.
-    # A slice factor of 16 means that each bucket is split into 16 slices.
+    # A slice factor of 4 means that each bucket is split into 4 slices.
     slice_factor = 1
 
     #### Run the solver ####
