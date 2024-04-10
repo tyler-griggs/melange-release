@@ -48,23 +48,22 @@ In this case, the solver recommends using 10 A10G GPUs and 0 A100 GPUs, which re
 
 
 ## Run with Your Own Dataset or GPU Information
-When you open [script_code](melange/main.py), go to the section which executes the solver and you will find these four inputs that you need to replace with your own.
+The toy example at [script_code](melange/main.py) includes examples of the four inputs to Mélange, which should be replaced to fit your setting's need.
 
 ### Workload Distribution
-   1. Examine your dataset of interest closely and decide on the bucket size for the input and output sizes and form an empty `workload_distribution` matrix.
-   2. Fill up the `workload_distribution` matrix by analyzing the request distributions of the dataset. As mentioned, each row should refer to one input size, each column should refer to one output size and each cell should correspond to the request rate for requests within that input and output size range (i.e. a bucket).
+   1. Determine the expected distribution of request sizes your LLM service expects. For example, you can use historical data of requests served by your service. In our evaluations, we used publicly available datasets (such as [Chatbot Arena](https://huggingface.co/datasets/lmsys/lmsys-chat-1m)) to determine a reasonable distribution of request sizes. 
+   2. Populate the `workload_distribution` based on the determined distribution. As mentioned, each row refers to a single input size, each column refers to a single output size, and each cell corresponds to the proportion of requests that fall into the given bucket. For example, a cell value of 0.1 indicates that 10% are in that bucket's size range.
 
 ### GPU Information
-For each GPU instance of interest, you need to provide the following information:
+For each GPU instance of interest, provide the following information:
    1. The name of the instance.
-   2. The cost per hour of the instance from the cloud provider.
-   3. Profile the GPU instance to obtain the maximum throughput for each cell of the request sizes in the `workload_distribution` matrix.
+   2. The hourly rental cost of the instance.
+   3. Results from profiling the GPUs maximum throughput (in requests/s) for requests within each bucket's size range from the buckets in `workload_distribution`.
 
 ### Overall Rate and Slice Factor
- 1. Obtain an estimate of the expected total request rate and provide it as the `overall_rate`.
- 2. Decide on the slice factor. You may try different slice factors to see how the solver's recommendation and the total cost changes.
+ 1. Determine the service's overall request rate across all request sizes, and provide it as the `overall_rate`.
+ 2. Decide on the slice factor. We find that the solver's output is not very sensitive to the choice of slice factor. We empirically find that 4 is sufficient for most cases.
 
-## Potential To-Do List
+## Repo To-Do List
 - [ ] Release more scripts or tools to facilitate the process of analyzing the dataset and/or profiling the GPUs.
-
 - [ ] Maintain a list of GPU profiles for popular GPUs to make it easier for users to use the solver.
