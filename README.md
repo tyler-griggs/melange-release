@@ -69,7 +69,7 @@ The default ILP solver used by the PuLP library is not compatible with Arm-based
 1. Install the COIN CBC ILP solver using homebrew: `brew install coin-or-tools/coinor/cbc`
 2. In [melange/solver.py](melange/solver.py), uncomment the following code to use the CBC solver. Note that your `path` may differ based on where the library was installed.
 ```
-solver = getSolver('CBC', path='/opt/homebrew/bin/cbc')
+solver= pulp.getSolver('COIN_CMD', path='/opt/homebrew/opt/cbc/bin/cbc', msg=0)
 problem.solve(solver)
 ```
 
