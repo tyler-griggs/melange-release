@@ -1,7 +1,7 @@
 # Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity
 
 ## About
-This repository provides the implementation of the solver used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners who are interested to try it out and assist their decision making process when provisioning cloud instances.
+This repository provides the implementation of Mélange used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners to experiment with utilizing heterogeneous GPUs to reduce cloud instance costs for LLM serving.
 
 ## Getting Started
 ```bash
@@ -17,23 +17,23 @@ python -m scripts.main
 ## Explanation of Inputs and Outputs
 ### Inputs
 The solver requires the following inputs:
-1. `workload_distribution`: A 2D matrix obtained by analyzing the request distributions of the dataset. Herein, each row refer to one input size, each column refer to one output size and each cell correspond to the request rate for requests within that input and output size range (i.e. a bucket). Depending on the choice of *bucket size*, an example for the range of input and output sizes could be as follows:
+1. `workload_distribution`: A 2D matrix representing the distribution of input and output lengths that the LLM service expects. Each row refer to one input size, each column refer to one output size and each cell correspond to the proportion of requests that are within the cell's input and output size range (i.e., a bucket). The request size boundaries between buckets can be tuned to reach a desired balance of granularity and solver complexity. An example for the range of input and output sizes could be as follows:
     - Input/Output size: 1-25, 25-100, 100-250, ...
-    - The cell at (0, 0) represents the request rate for requests with input/output size 1-25.
-    - The cell at (0, 1) represents the request rate for requests with input size 1-25 and output size 25-100.
+    - The cell at (0, 0) represents the request rate for requests with input and output sizes of 1-25 tokens.
+    - The cell at (0, 1) represents the request rate for requests with input size 1-25 tokens and output size 25-100 tokens.
     - And so on ...
 2. `gpu_info`: A list of dictionaries, where each dictionary contains the following keys:
     - 'name': The name of the GPU.
-    - 'cost': The cost of using the GPU for one hour.
-    - 'tputs': A 2D matrix where each cell represents the GPU's profiled maximum throughput and correspond to each of the request sizes in the `workload_distribution` matrix.
-3. `overall_rate`: A float representing the total request rate of the workload.
-4. `slice_factor`: A numerical value representing how many slices each bucket is split into. A slice factor of 16 means that each bucket is split into 16 slices.
+    - 'cost': The hourly rental cost of the GPU.
+    - 'tputs': A 2D matrix where each cell represents the GPU's profiled maximum throughput for requests of size equivalent to the corresponding cell in the `workload_distribution` matrix.
+3. `overall_rate`: A float value representing the total request rate of the workload.
+4. `slice_factor`: An integer multiplier for the number of slices each bucket is split into.
 
-Please kindly refer to [script_code](melange/main.py) for an example of the inputs and check out our paper for more details of our methodology.
+Please kindly refer to [script_code](melange/main.py) for an example of the inputs and check out our paper for more details on our methodology.
 
 ### Outputs
-The solver returns a dictionary containing the following keys:
-1. The name of the GPU and the number of GPUs to use.
+The solver returns a dictionary containing the following:
+1. The name of each GPU and the number of that GPU type to use.
 2. The total cost for one hour.
 
 An example of the output is as follows:
@@ -44,7 +44,7 @@ An example of the output is as follows:
     "cost": 10.1
 }
 ```
-This means that the solver recommends using 10 A10G GPUs and 0 A100 GPUs, which results in a total cost of 10.1 for one hour.
+In this case, the solver recommends using 10 A10G GPUs and 0 A100 GPUs, which results in a total cost of $10.10/hr.
 
 
 ## Run with Your Own Dataset or GPU Information
