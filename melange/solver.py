@@ -103,7 +103,7 @@ class MelangeSolver(Solver):
         problem.solve(pulp.PULP_CBC_CMD(msg=0))
 
         # For Arm-based Mac platforms.
-        # solver = getSolver('CBC', path='/opt/homebrew/bin/cbc')
+        # solver= pulp.getSolver('COIN_CMD', path='/opt/homebrew/opt/cbc/bin/cbc', msg=0)
         # problem.solve(solver)
         
         # Print the results if needed
