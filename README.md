@@ -11,7 +11,7 @@ This repository provides the implementation of Mélange used in our paper. We op
 pip install -r requirements.txt
 
 # 2. Execute the solver
-python -m scripts.main
+python -m melange.main
 ```
 
 ## Explanation of Inputs and Outputs
