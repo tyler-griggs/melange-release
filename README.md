@@ -17,7 +17,7 @@ python -m scripts.main
 ## Explanation of Inputs and Outputs
 ### Inputs
 The solver requires the following inputs:
-1. `workload_distribution`: A 2D matrix representing the distribution of input and output lengths that the LLM service expects. Each row refer to one input size, each column refer to one output size and each cell correspond to the proportion of requests that are within the cell's input and output size range (i.e., a bucket). The request size boundaries between buckets can be tuned to reach a desired balance of granularity and solver complexity. An example for the range of input and output sizes could be as follows:
+1. `workload_distribution`: A 2D matrix representing the distribution of input and output lengths that the LLM service expects. Each row refers to one input size, each column refer to one output size, and each cell correspond to the proportion of requests that are within the cell's input and output size range (i.e., a bucket). The request size boundaries between buckets can be tuned to reach a desired balance of granularity and solver complexity. An example for the range of input and output sizes could be as follows:
     - Input/Output size: 1-25, 25-100, 100-250, ...
     - The cell at (0, 0) represents the request rate for requests with input and output sizes of 1-25 tokens.
     - The cell at (0, 1) represents the request rate for requests with input size 1-25 tokens and output size 25-100 tokens.
