@@ -1,0 +1,12 @@
+{
+    "gpu_info": {
+        
+        "A100-80GB": {
+            "cost": 3.67,
+            "tputs": [[20, 2], [50, 20]]
+        }
+    },
+    "workload_distribution": [[0.25, 0.125], [0.375, 0.25]],
+    "total_request_rate": 1.0,
+    "slice_factor": 1
+}
