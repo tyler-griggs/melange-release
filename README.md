@@ -156,8 +156,8 @@ curl http://$IP:8000/v1/completions \
 sky down melange-skypilot
 ```
 
-## For Arm-based Mac platforms (M1/M2/M3)
-The default ILP solver used by the PuLP library is not compatible with Arm-based architectures and will require additional steps.
+## For Arm-based Mac platforms
+We have occasionally (but not always) seen errors using PuLP on Arm-based MACs (M1/M2/M3). If you experience this issue, it's likely because the default ILP solver used by the PuLP library is not compatible with your architecture and will require additional steps.
 1. Install the COIN CBC ILP solver using homebrew: `brew install coin-or-tools/coinor/cbc`
 2. In [melange/solver.py](melange/solver.py), uncomment the following code to use the CBC solver. Note that your `path` may differ based on where the library was installed.
 ```
