@@ -1,42 +1,33 @@
+import argparse
+from melange.lib.runner import SolverRunner
 from melange.solver import MelangeSolver
 
 
-def solver_run_example():
-    #### Input required for the solver ####
-    #### Replace the following with your own input ####
-
-    # Each "tputs" is a 2D matrix based on offline profiling.
-    # Each cell inside represents the GPU's profiled maximum throughput.
-    # It corresponds to each of the request sizes in the `workload_distribution` matrix.
-    gpu_info_example = {
-        "A10G": {
-            "cost": 1.01,
-            "tputs": [[5, 1], [10, 5]],
-        },
-        "A100": {
-            "cost": 3.67,
-            "tputs": [[20, 2], [50, 20]],
-        },
-    }
-
-    # A 2D matrix obtained by analyzing the request distributions of the dataset.
-    workload_distribution = [[0.25, 0.125], [0.375, 0.25]]
-
-    # Overall rate represents the total number of requests per second of the workload.
-    overall_rate = 16
-    # Slice factor represents how many slices each bucket is split into.
-    # A slice factor of 4 means that each bucket is split into 4 slices.
-    slice_factor = 1
-
-    #### Run the solver ####
-    mix_result = MelangeSolver(
-        workload_distribution=workload_distribution,
-        overall_rate=overall_rate,
-        slice_factor=slice_factor,
-        gpu_info=gpu_info_example,
-    ).run()
-    print(mix_result)
-
+def main(config_path: str, output_format: str):
+    runner = SolverRunner(config_path)
+    runner.run()
+    runner.export(output_format)
 
 if __name__ == "__main__":
-    solver_run_example()
+    parser = argparse.ArgumentParser()
+    # Input arguments
+    parser.add_argument(
+        "--config",
+        "-c",
+        type=str,
+        default="melange/config/example.json",
+        help="Path to the input configuration file, in json",
+    )
+    # Output arguments
+    parser.add_argument(
+        "--output_format",
+        "-f",
+        default="default",
+        choices=["skypilot", "default"],
+        help="Output format for the results."
+        "By default, the result will saved as a json file."
+        "SkyPilot format will generate a yaml file for each GPU type based on an existing template",
+    )
+    args = parser.parse_args()
+
+    main(args.config, args.output_format)

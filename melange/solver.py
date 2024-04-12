@@ -1,15 +1,14 @@
-import math
 import pulp
 from pulp import LpVariable, LpProblem, LpMinimize, LpInteger
 
-from melange.util import tputs_to_loads_2d
+from melange.lib.util import tputs_to_loads_2d
 
 
 # base class
 class Solver:
-    def __init__(self, workload_distribution, overall_rate, gpu_info):
+    def __init__(self, workload_distribution: list, total_request_rate: float, gpu_info: dict):
         self.workload_distribution = workload_distribution
-        self.overall_rate = overall_rate
+        self.overall_rate = total_request_rate
         self.gpu_info = gpu_info
 
     def run(self, logs=False):
@@ -17,8 +16,8 @@ class Solver:
 
 
 class MelangeSolver(Solver):
-    def __init__(self, workload_distribution, overall_rate, gpu_info, slice_factor):
-        super().__init__(workload_distribution, overall_rate, gpu_info)
+    def __init__(self, workload_distribution: list, total_request_rate: float, gpu_info: dict, slice_factor: int):
+        super().__init__(workload_distribution, total_request_rate, gpu_info)
         self.slice_factor = slice_factor
 
     def run(self, logs=False):
@@ -105,7 +104,7 @@ class MelangeSolver(Solver):
         # For Arm-based Mac platforms.
         # solver= pulp.getSolver('COIN_CMD', path='/opt/homebrew/opt/cbc/bin/cbc', msg=0)
         # problem.solve(solver)
-        
+
         # Print the results if needed
         if logs:
             print(f"Decision Matrix:")
@@ -119,7 +118,7 @@ class MelangeSolver(Solver):
 
         solution_dict = {}
         for i in range(len(decision_vector)):
-            solution_dict[gpu_types[i]] = decision_vector[i].value()
+            solution_dict[gpu_types[i]] = int(decision_vector[i].value())
 
         total_cost = 0
         for gpu in solution_dict:
