@@ -2,14 +2,14 @@
     "gpu_info": {
         "A10G": {
             "cost": 1.01,
-            "tputs": [[5, 1], [10, 5]]
+            "tputs": [[2, 1], [5, 2]]
         },
         "A100-80GB": {
             "cost": 3.67,
-            "tputs": [[20, 2], [50, 20]]
+            "tputs": [[20, 20], [40, 20]]
         }
     },
-    "workload_distribution": [[0.25, 0.125], [0.375, 0.25]],
-    "total_request_rate": 1.0,
+    "workload_distribution": [[0.2, 0.1], [0.5, 0.2]],
+    "total_request_rate": 30.0,
     "slice_factor": 1
 }
