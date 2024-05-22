@@ -1,7 +1,7 @@
 # Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity
 
 ## About
-This repository provides the implementation of Mélange used in our paper. We open source this tool with the hope that it can be useful for researchers and practitioners to experiment with utilizing heterogeneous GPUs to reduce cloud instance costs for LLM serving.
+Here we provides the implementation of our Mélange solver and other related scripts used in our paper.
 
 ## Getting Started
 ```bash
@@ -10,7 +10,9 @@ This repository provides the implementation of Mélange used in our paper. We op
 # 1. Install the necessary dependencies
 pip install -r requirements.txt
 
-# 2. Execute the solver with a specific input configuration
+# See the melange/profiling/profiling-instructions.md for instructions on how to obtain the GPU information needed as the solver's input.
+
+# 2. Execute the solver with your own input configuration
 python -m melange.main -c melange/config/example.json
 
 # 3. By default, the solver will save the output in a JSON file named as "melange_result.json" at the root directory
@@ -32,7 +34,7 @@ The solver requires a json file with the following inputs:
 3. `total_request_rate`: A float value representing the total request rate of the workload.
 4. `slice_factor`: An integer multiplier for the number of slices each bucket is split into.
 
-Please kindly refer to [example.json](melange/config/example.json) for an example of the inputs and check out our paper for more details on our methodology.
+Please kindly refer to [example.json](melange/config/example.json) for an example of the inputs and check out our paper for more details on our methodology. We have also provided the profiling scripts we used to obtain the GPU information in the [profiling](melange/profiling) directory. See the [profiling instructions](melange/profiling/profiling-instructions.md) for more details on how to use these scripts.
 
 ### Outputs
 ### Solver Output
