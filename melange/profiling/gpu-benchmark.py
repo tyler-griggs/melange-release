@@ -145,8 +145,7 @@ def main(args: argparse.Namespace):
     np.random.seed(args.seed)
 
     api_url = f"http://{args.host}:{args.port}/generate"
-    tokenizer = get_tokenizer(args.tokenizer, trust_remote_code=args.trust_remote_code)
-    input_requests = sample_requests(args.dataset, args.num_prompts, tokenizer, args.input_len, args.output_len)
+    input_requests = sample_requests(args.num_prompts, args.input_len, args.output_len)
 
     benchmark_start_time = time.perf_counter()
     asyncio.run(benchmark(args.backend, api_url, input_requests, args.best_of,
@@ -194,10 +193,6 @@ if __name__ == "__main__":
                         choices=["vllm", "tgi"])
     parser.add_argument("--host", type=str, default="localhost")
     parser.add_argument("--port", type=int, default=8000)
-    parser.add_argument("--dataset", type=str, required=True,
-                        help="Path to the dataset.")
-    parser.add_argument("--tokenizer", type=str, required=True,
-                        help="Name or path of the tokenizer.")
     parser.add_argument("--best-of", type=int, default=1,
                         help="Generates `best_of` sequences per prompt and "
                              "returns the best one.")
