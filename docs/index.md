@@ -166,3 +166,14 @@ To run with your own dataset or GPU information, please check out the [README](h
 Within the large and growing option space of AI hardware accelerators, there is significant opportunity to exploit their heterogeneity to cut LLM serving costs. By allocating a mix of GPU types tailored to a given LLM service, Mélange offers an efficient solution for reducing LLM deployment costs while ensuring service quality remains uncompromised.
 
 *For more details, see the [preprint on Arxiv](https://arxiv.org/abs/2404.14527).*
+
+# Citation
+If you use Mélange in your research, please cite our [paper](https://arxiv.org/abs/2404.14527):
+```
+@article{griggs2024m,
+  title={M$\backslash$'elange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity},
+  author={Griggs, Tyler and Liu, Xiaoxuan and Yu, Jiaxiang and Kim, Doyoung and Chiang, Wei-Lin and Cheung, Alvin and Stoica, Ion},
+  journal={arXiv preprint arXiv:2404.14527},
+  year={2024}
+}
+```
