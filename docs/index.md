@@ -1,3 +1,5 @@
+# Exploiting Heterogeneous GPUs to Cut LLM Deployment Costs
+
 *This blog is based on our preprint "Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity". For more details, see the* <a href="https://arxiv.org/abs/2404.14527" target="_blank">*preprint on arXiv*</a>.
 
 ### TL;DR
