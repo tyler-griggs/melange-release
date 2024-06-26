@@ -1,13 +1,13 @@
 # Exploiting Heterogeneous GPUs to Cut LLM Deployment Costs
 
-*This blog is based on our preprint "Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity". For more details, see the* <a href="https://arxiv.org/abs/2404.14527" target="_blank">*preprint on arXiv*</a>.
+*This blog is based on our preprint "Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity". For more details, see the* <a href="https://arxiv.org/abs/2404.14527" target="_blank">*preprint on arXiv*</a> and <a href="https://github.com/tyler-griggs/melange-release" target="_blank">*code on Github*</a>.
 
 ### TL;DR
 Using an optimal *mix* of GPU types in your LLM deployment can significantly cut deployment costs by exploiting differing GPU cost efficiencies across diverse LLM service scenarios.
 
 ## The High Cost of LLM Deployment
 
-Large language models (LLMs) are increasingly integrated into many online services such as search engines and virtual assistants. However, the deployment of these models is often cost-prohibitive due to the need for expensive GPU resources. 
+Large language models (LLMs) are increasingly integrated into many online services such as search engines and virtual assistants. However, the deployment of these models is often cost-prohibitive due to the need for expensive GPU resources.
 
 
 Many prior works reduce deployment costs by increasing inference engine performance, but our study shifts the spotlight to choosing the most cost-effective GPU type(s) for any given LLM service.
@@ -16,7 +16,7 @@ Many prior works reduce deployment costs by increasing inference engine performa
 
 There is a large and growing option space of AI hardware accelerators, from NVIDIA GPUs and AMD GPUs to Google TPUs, AWS Inferentia, and more. Within these options, *higher cost does not always lead to higher performance*. We find, instead, that the cost efficiency of a given GPU is heavily influenced by three key characteristics of LLM services: request sizes, request rates, and service-level objectives (SLOs).
 
-Whereas most LLM service deployments use only a single GPU type to host model replicas, we show that a *mix* of heterogeneous GPUs, tailored to the specific characteristics of a given LLM service, can lead to significant cost savings. 
+Whereas most LLM service deployments use only a single GPU type to host model replicas, we show that a *mix* of heterogeneous GPUs, tailored to the specific characteristics of a given LLM service, can lead to significant cost savings.
 
 <!-- Building on this analysis, we introduce **Mélange**, a framework designed to optimize GPU allocation by leveraging the diversity of GPU types. Mélange navigates GPU heterogeneity and formulates GPU allocation as a cost-aware bin-packing problem, efficiently matching service requirements with the most suitable and economical GPU configuration, which is often a mix of GPU types. -->
 
@@ -95,7 +95,7 @@ In Plot 6, we compare the cost efficiency (tokens/\\$, or T/\\$) of A10G and A10
 ![Mélange Framework](images/melange-diagram.png)
 *The Mélange Framework*
 
-Building on this analysis, we introduce **Mélange**, a GPU allocation framework that derives the minimal-cost GPU allocation for a given LLM service. 
+Building on this analysis, we introduce **Mélange**, a GPU allocation framework that derives the minimal-cost GPU allocation for a given LLM service.
 
 In Mélange, each GPU type (1a) passes through a one-time offline profiling step (2) to measure GPU performance across request sizes and rates. Then, given the profiling results and an LLM service definition (1b), Mélange’s objective is to choose a GPU allocation for the service workload that minimizes cost. To do so, we frame the allocation task as a cost-aware bin packing problem, where bins are GPUs and items are slices of the workload. We formulate the problem as an integer linear program (ILP) and efficiently solve with an off-the-shelf solver (3). Upon solution, Mélange produces the GPU allocation that can serve the LLM service at minimal cost while adhering to the service SLO (4).
 
@@ -147,6 +147,19 @@ We evaluated Mélange's performance using various GPU types (NVIDIA L4, A10G, A1
 
 
 The results validate the core observations that request size, request rate, and SLOs jointly determine GPU cost efficiency. As any of these LLM service characteristics vary, Mélange flexibly adjusts its GPU allocation and mixes GPU types to exploit their heterogeneity. This consistently delivers the most cost efficient allocation, achieving up to a 77% cost reduction.
+
+# Get Started with Mélange
+Clone the [repository](https://github.com/tyler-griggs/melange-release) and run the following commands at the project root directory:
+```bash
+# 1. Install the necessary dependencies
+pip install -r requirements.txt
+
+# 2. Execute the solver with an example input configuration
+python -m melange.main -c melange/config/example.json
+
+# 3. By default, the solver will save the output in a JSON file named as "melange_result.json" at the project root directory
+```
+To run with your own dataset or GPU information, please check out the [README](https://github.com/tyler-griggs/melange-release/blob/main/README.md). We have also provided the profiling scripts and their respective [profiling instructions](https://github.com/tyler-griggs/melange-release/blob/main/melange/profiling/profiling-instructions.md) in the repository.
 
 # Conclusion
 
