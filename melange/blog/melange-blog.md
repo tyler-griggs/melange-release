@@ -1,7 +1,7 @@
 *This blog is based on our preprint "Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity". For more details, see the* <a href="https://arxiv.org/abs/2404.14527" target="_blank">*preprint on arXiv*</a>.
 
 ### TL;DR
-Using an optimal *mix* of GPU types in your LLM deployment can significantly cut deployment costs by exploiting differing GPU cost efficiency across diverse LLM service scenarios.
+Using an optimal *mix* of GPU types in your LLM deployment can significantly cut deployment costs by exploiting differing GPU cost efficiencies across diverse LLM service scenarios.
 
 ## The High Cost of LLM Deployment
 
@@ -20,7 +20,7 @@ Whereas most LLM service deployments use only a single GPU type to host model re
 
 # Key Factors Influencing GPU Cost Efficiency
 
-We find that three LLM service characteristics significantly influence GPU cost efficiency:
+In this section, we highlight the three key LLM service characteristics significantly influence GPU cost efficiency: **request size**, **request rate**, and **SLO**.
 
 ## Request Size
 
@@ -102,47 +102,49 @@ Mélange’s strength stems from two key properties. First, it is *heterogeneity
 
 # Experimental Results
 
-We evaluated Mélange's performance using various GPU types (NVIDIA L4, A10G, A100, and H100), model sizes (Llama2-7b and Llama2-70b), and TPOT SLOs (40ms, 120ms). To capture a range of service scenarios, we use three datasets: for short-context tasks (interactive chat) we use the Chatbot Arena [dataset](https://huggingface.co/datasets/lmsys/lmsys-chat-1m), for long-contex tasks (document summarization) we use the Pubmed [dataset](https://huggingface.co/datasets/ccdv/pubmed-summarization), and for a mixed-context setting we create a synthetic dataset of 80% short-context and 20% long-context requests. We compare to baselines that use only a single GPU type. Our results indicate substantial cost reductions in diverse service settings:
-
-- **Short-Context Tasks (Interactive Chats):** In Plots 7 & 8, Mélange achieves 15-77% cost reduction (120ms SLO) and 9-68% reduction (40ms SLO) compared to single-GPU strategies. At 1-2 req/s, H100/A100 are underutilized, making L4/A10G the economic option.. However, as the rate increases, L4/A10G’s cost advantage reduces as A100/H100 are better utilized, yet they remain competitive with A100 even at higher request rates due to their T/\\$ advantage for smaller request sizes. Conversely, at a 40ms SLO, A10G/L4 show much higher relative costs due to their increased latency, requiring more instances to meet the tight deadline. Mélange adapts by allocating more L4/A10G at 120ms SLO and more A100 at 40ms SLO, consistently reducing overall cost.
-- **Long-Context Tasks (Document Summarization):** In Plots 9 & 10, Mélange achieves 15-33% cost reduction (120ms SLO) and 2-22% reduction (40ms SLO). A100 generally achieves higher T/\\$ for the request sizes in PubMed, evidenced by the 120ms setting where A100-only is consistently cheaper than H100-only. However, when SLO tightens to 40ms, H100 is the clear winner due to H100’s lower inference latency. Again, Mélange adapts to these dynamics by allocating a greater share of A100s at a looser SLO, and more H100s as the SLO is tightened.
-- **Mixed-Context Tasks (Chat with Documents):** In Plots 11 & 12, Mélange achieves 13-51% cost reduction (120ms SLO) and 4-51% reduction (40ms SLO). Compared to the PubMed workload, A100-only has much greater cost efficiency in the Mixed workload than H100 due to a greater portion of short-context requests, for which A100 achieves greater T/\\$. Mélange capitalizes by using more A100 than H100, but it also uses L4/A10Gs for small requests, enabling even further cost reduction.
-
-
-The results validate the core observations that request size, request rate, and SLOs jointly determine GPU cost efficiency. As any of these LLM service characteristics vary, Mélange flexibly adjusts its GPU allocation and mixes GPU types to exploit their heterogeneity. This consistently delivers the most cost efficient allocation, achieving up to a 77% cost reduction.
-
-<!-- Moreover, Mélange's flexibility allows it to adapt to changing service demands, ensuring consistent cost efficiency across different operating conditions. For example, during periods of low activity, the framework can dynamically adjust the allocation to cheaper GPUs, maintaining service availability at the lowest possible cost. -->
+We evaluated Mélange's performance using various GPU types (NVIDIA L4, A10G, A100, and H100), model sizes (Llama2-7b and Llama2-70b), and TPOT SLOs (40ms, 120ms). To capture a range of service scenarios, we use three datasets in evaluations: Chatbot Arena [dataset](https://huggingface.co/datasets/lmsys/lmsys-chat-1m) for short-context tasks, Pubmed [dataset](https://huggingface.co/datasets/ccdv/pubmed-summarization) for long-contex tasks, and a synthetic blend of the two datasets for a mixed-context setting. We compare against baselines that use only a single GPU type. Our results indicate substantial cost reductions in diverse service settings:
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
   <div style="flex: 1; text-align: center;">
     <img src="images/Arena_120-1.png" alt="Plot 7" width="100%">
-    <p>Short-context, 120ms TPOT SLO</p>
+    <p>Plot 7: Short-context, 120ms TPOT SLO</p>
   </div>
   <div style="flex: 1; text-align: center;">
     <img src="images/Arena_40-1.png" alt="Plot 8" width="100%">
-    <p>Short-context, 40ms TPOT SLO</p>
+    <p>Plot 8: Short-context, 40ms TPOT SLO</p>
   </div>
 </div>
+
+**Short-Context Tasks (Interactive Chats):** In Plots 7 & 8, Mélange achieves 15-77% cost reduction (120ms SLO) and 9-68% reduction (40ms SLO) compared to single-GPU strategies. At 1-2 req/s, H100/A100 are underutilized, making L4/A10G the economic option.. However, as the rate increases, L4/A10G’s cost advantage reduces as A100/H100 are better utilized, yet they remain competitive with A100 even at higher request rates due to their T/\\$ advantage for smaller request sizes. Conversely, at a 40ms SLO, A10G/L4 show much higher relative costs due to their increased latency, requiring more instances to meet the tight deadline. Mélange adapts by allocating more L4/A10G at 120ms SLO and more A100 at 40ms SLO, consistently reducing overall cost.
+
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
   <div style="flex: 1; text-align: center;">
     <img src="images/Pubmed_120-1.png" alt="Plot 9" width="100%">
-    <p>Long-context, 120ms TPOT SLO</p>
+    <p>Plot 9: Long-context, 120ms TPOT SLO</p>
   </div>
   <div style="flex: 1; text-align: center;">
     <img src="images/Pubmed_40-1.png" alt="Plot 10" width="100%">
-    <p>Long-context, 40ms TPOT SLO</p>
+    <p>Plot 10: Long-context, 40ms TPOT SLO</p>
   </div>
 </div>
+
+**Long-Context Tasks (Document Summarization):** In Plots 9 & 10, Mélange achieves 15-33% cost reduction (120ms SLO) and 2-22% reduction (40ms SLO). A100 generally achieves higher T/\\$ for the request sizes in PubMed, evidenced by the 120ms setting where A100-only is consistently cheaper than H100-only. However, when SLO tightens to 40ms, H100 is the clear winner due to H100’s lower inference latency. Again, Mélange adapts to these dynamics by allocating a greater share of A100s at a looser SLO, and more H100s as the SLO is tightened.
+
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
   <div style="flex: 1; text-align: center;">
     <img src="images/Mixed_80_20_120-1.png" alt="Plot 11" width="100%">
-    <p>Mixed-context, 120ms TPOT SLO</p>
+    <p>Plot 11: Mixed-context, 120ms TPOT SLO</p>
   </div>
   <div style="flex: 1; text-align: center;">
     <img src="images/Mixed_80_20_40-1.png" alt="Plot 12" width="100%">
-    <p>Mixed-context, 40ms TPOT SLO</p>
+    <p>Plot 12: Mixed-context, 40ms TPOT SLO</p>
   </div>
 </div>
+
+**Mixed-Context Tasks (Chat with Documents):** In Plots 11 & 12, Mélange achieves 13-51% cost reduction (120ms SLO) and 4-51% reduction (40ms SLO). Compared to the PubMed workload, A100-only has much greater cost efficiency in the Mixed workload than H100 due to a greater portion of short-context requests, for which A100 achieves greater T/\\$. Mélange capitalizes by using more A100 than H100, but it also uses L4/A10Gs for small requests, enabling even further cost reduction.
+
+
+The results validate the core observations that request size, request rate, and SLOs jointly determine GPU cost efficiency. As any of these LLM service characteristics vary, Mélange flexibly adjusts its GPU allocation and mixes GPU types to exploit their heterogeneity. This consistently delivers the most cost efficient allocation, achieving up to a 77% cost reduction.
 
 # Conclusion
 
