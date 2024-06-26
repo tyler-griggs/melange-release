@@ -85,7 +85,7 @@ problem.solve(solver)
 ```
 
 ## Citation
-If you find our work useful, please consider citing:
+If you use Mélange in your research, please cite our [paper](https://arxiv.org/abs/2404.14527):
 ```
 @article{griggs2024m,
   title={M$\backslash$'elange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity},
