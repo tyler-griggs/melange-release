@@ -157,7 +157,7 @@ pip install -r requirements.txt
 # 2. Execute the solver with an example input configuration
 python -m melange.main -c melange/config/example.json
 
-# 3. By default, the solver will save the output in a JSON file named as "melange_result.json" at the project root directory
+# 3. By default, the solver will save the output in a JSON file named "melange_result.json" at the project root directory
 ```
 To run with your own dataset or GPU information, please check out the [README](https://github.com/tyler-griggs/melange-release/blob/main/README.md). We have also provided the profiling scripts and their respective [profiling instructions](https://github.com/tyler-griggs/melange-release/blob/main/melange/profiling/profiling-instructions.md) in the repository.
 
