@@ -1,7 +1,7 @@
 # Mélange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity
 
 ## About
-Here we provides the implementation of our Mélange solver and other related scripts used in our paper.
+Here we provide the implementation of the Mélange solver and other related scripts used in our [paper](https://arxiv.org/pdf/2404.14527).
 
 ## Getting Started
 ```bash
@@ -82,4 +82,15 @@ We have occasionally (but not always) seen errors using PuLP on Arm-based MACs (
 ```
 solver= pulp.getSolver('COIN_CMD', path='/opt/homebrew/opt/cbc/bin/cbc', msg=0)
 problem.solve(solver)
+```
+
+## Citation
+If you use Mélange in your research, please cite our [paper](https://arxiv.org/abs/2404.14527):
+```
+@article{griggs2024m,
+  title={M$\backslash$'elange: Cost Efficient Large Language Model Serving by Exploiting GPU Heterogeneity},
+  author={Griggs, Tyler and Liu, Xiaoxuan and Yu, Jiaxiang and Kim, Doyoung and Chiang, Wei-Lin and Cheung, Alvin and Stoica, Ion},
+  journal={arXiv preprint arXiv:2404.14527},
+  year={2024}
+}
 ```
