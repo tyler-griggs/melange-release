@@ -22,7 +22,7 @@ Whereas most LLM service deployments use only a single GPU type to host model re
 
 # Key Factors Influencing GPU Cost Efficiency
 
-In this section, we highlight the three key LLM service characteristics significantly influence GPU cost efficiency: **request size**, **request rate**, and **SLO**.
+In this section, we highlight the three key LLM service characteristics that influence GPU cost efficiency: **request size**, **request rate**, and **SLO**.
 
 ## Request Size
 
